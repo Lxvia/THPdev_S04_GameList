@@ -1,5 +1,4 @@
 <h2>View app</h2>
-GitPages : <b>https://lxvia.github.io/THPdev_S04_GameList/</b>
 
 <h2>Download</h2><br>
 git clone : <b>git@github.com:Lxvia/THPdev_S04_GameList</b>
