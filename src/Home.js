@@ -1,7 +1,10 @@
 import { PageList } from "./PageList";
 const showMoreBtn = document.getElementById("showMore");
+const selectBlock = document.querySelector("select");
+const selectResult = document.querySelector("#select");
 
 const Home = (argument = "") => {
+  console.log(selectBlock);
   const searchBtn = document.getElementById("btnSearch");
   const searchBar = document.getElementById("search-bar");
   const landingPage = document.getElementById("landing-page");
@@ -16,6 +19,27 @@ const Home = (argument = "") => {
   searchBtn.addEventListener("click", () => {
     // console.log(searchBar.value);
     PageList(searchBar.value);
+  });
+
+  selectBlock.addEventListener("click", (event) => {
+    event.preventDefault();
+    // console.log(selectResult.value);
+    let gameBlock = document.querySelectorAll("#container");
+    // console.log(gameBlock);
+    if (selectResult.value != "Any") {
+      gameBlock.forEach((element) => {
+        element.style.display = "block";
+        let gameBlockPlatforms = element.querySelector("#platforms");
+        let gameBlockPlatformsHtml = gameBlockPlatforms.innerHTML.includes(
+          selectResult.value
+        );
+        // console.log(gameBlockPlatforms.innerHTML);
+        // console.log(gameBlockPlatformsHtml);
+        if (!gameBlockPlatformsHtml) {
+          element.style.display = "none";
+        }
+      });
+    }
   });
 
   showMoreBtn.addEventListener("click", () => {
