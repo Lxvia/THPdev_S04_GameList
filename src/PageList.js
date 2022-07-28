@@ -1,11 +1,14 @@
-const PageList = (argument = "") => {
+const PageList = (argument = "", numberOfGame = 9) => {
   const API_KEY = process.env.PROJECT_API_KEY;
+  const searchBar = document.getElementById('search-bar');
+  const showMore = document.getElementById('showMore');
+  showMore.style.display = "block";
   // const searchBtn = document.getElementsByClassName('search-btn')
   // const searchBar = document.getElementById('search-bar')
 
   const preparePage = () => {
     const cleanedArgument = argument.trim().replace(/\s+/g, "-");
-
+    numberOfGame = 9
     const fetchList = (url, argument) => {
       const finalURL = argument ? `${url}&search=${argument}` : url;
       fetch(finalURL)
@@ -18,7 +21,6 @@ const PageList = (argument = "") => {
 
     // var platformList = []
     const fetchPlatform = (url) => {
-      console.log("coucou");
       fetch(url)
         .then((response) => response.json())
         .then((responseData) => {
@@ -28,7 +30,23 @@ const PageList = (argument = "") => {
     };
 
     fetchPlatform(`https://api.rawg.io/api/platforms/lists/parents?key=${API_KEY}`);
-    fetchList(`https://api.rawg.io/api/games?key=${API_KEY}`, cleanedArgument);
+    fetchList(`https://api.rawg.io/api/games?key=${API_KEY}&page_size=${numberOfGame}`, cleanedArgument);
+    console.log(searchBar.value);
+    showMore.addEventListener('click', () => {
+      numberOfGame += 9;
+      if (searchBar.value == '') {
+        let url =  `https://api.rawg.io/api/games?key=${API_KEY}&page_size=${numberOfGame}`
+        fetchList(url, cleanedArgument);
+      } else {
+        const cleanedSearchBar = searchBar.value.trim().replace(/\s+/g, '-');
+        let url =  `https://api.rawg.io/api/games?key=${API_KEY}&page_size=${numberOfGame}`
+        fetchList(url, cleanedSearchBar);
+      }
+      if (numberOfGame === 27) {
+        showMore.style.display = "none";
+        numberOfGame = 9
+      }
+    })
   };
 
   const displayList = (platforms) => {
@@ -75,7 +93,7 @@ const PageList = (argument = "") => {
             </ul>
           </div>
         <div class="card-body">
-        <h5 class="card-title"><a href="#">${article.name}</a></h5>
+        <h5 class="card-title"><a href="#pagedetail/${article.id}">${article.name}</a></h5>
         <div class="iconsCard">
           <p class="card-text">${
             article.parent_platforms

@@ -1,16 +1,17 @@
 import { PageList } from "./PageList";
 const showMoreBtn = document.getElementById("showMore");
-const selectBlock = document.querySelector("select");
+const selectblock = document.querySelector("select");
 const selectResult = document.querySelector("#select");
+const welcomeContainer = document.querySelector(".welcome-container");
 
 const Home = (argument = "") => {
-  console.log(selectBlock);
+  console.log(selectblock);
   const searchBtn = document.getElementById("btnSearch");
   const searchBar = document.getElementById("search-bar");
   const landingPage = document.getElementById("landing-page");
   let numberOfPages = 0;
 
-  let landingPageArgument = `&dates=2022-07-26,2023-07-26&ordering=-rating&page_size=${(numberOfPages = 9)}`;
+  let landingPageArgument = `&dates=2022-07-01,2023-07-30&ordering=-added`;
   landingPage.insertAdjacentHTML = `<h3>Welcome to THProgame</h3>
   <p class="page-description">THProgame allows you to learn all about videogames releases</p>
   `;
@@ -21,7 +22,7 @@ const Home = (argument = "") => {
     PageList(searchBar.value);
   });
 
-  selectBlock.addEventListener("click", (event) => {
+  selectblock.addEventListener("change", (event) => {
     event.preventDefault();
     // console.log(selectResult.value);
     let gameBlock = document.querySelectorAll("#container");
@@ -39,13 +40,11 @@ const Home = (argument = "") => {
           element.style.display = "none";
         }
       });
+    } else {
+      gameBlock.forEach((element) => {
+        element.style.display = "block";
+      });
     }
-  });
-
-  showMoreBtn.addEventListener("click", () => {
-    let landingPageArgument = `&dates=2022-07-26,2023-07-26&ordering=-rating&page_size=${(numberOfPages += 9)}`;
-    PageList(landingPageArgument);
-    numberOfPages === 27 ? showMore.remove() : showMore;
   });
 };
 
